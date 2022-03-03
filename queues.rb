@@ -1,6 +1,4 @@
-require "pp"
-
-class Stack
+class Queue
   attr_accessor :first, :last, :size
 
   def initialize
@@ -9,23 +7,22 @@ class Stack
     self.size = 0
   end
 
-  def push(val)
+  def enqueue(val)
     new_node = Node.new(val, nil)
 
-    if first.nil?
+    if (self.first.nil?)
       self.first = new_node
       self.last = new_node
     else
-      temp = self.first
-      self.first = new_node
-      self.first.next = temp
+      self.last.next = new_node
+      self.last = new_node
     end
 
     self.size += 1
   end
 
-  def pop
-    return if first.nil?
+  def dequeue
+    return if self.first.nil?
 
     temp = self.first
     if (self.first == self.last)
@@ -33,7 +30,6 @@ class Stack
     end
     self.first = self.first.next
     self.size -= 1
-    pp temp.val
   end
 
   private
@@ -48,16 +44,19 @@ class Stack
   end
 end
 
-stack = Stack.new
-stack.push(10)
-stack.push(20)
-stack.push(30)
-stack.push(40)
-stack.push(50)
+q = Queue.new
+q.enqueue(10)
+q.enqueue(20)
+q.enqueue(30)
+q.enqueue(40)
+q.enqueue(50)
 
-pp stack.size
+pp q
 
-stack.pop
-stack.pop
-stack.pop
-pp stack.size
+q.dequeue
+q.dequeue
+q.dequeue
+q.dequeue
+q.dequeue
+
+pp q
