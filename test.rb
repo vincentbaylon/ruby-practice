@@ -1,12 +1,12 @@
 def two_sum(nums, target)
-  prevMap = Hash.new
+  prev_map = Hash.new
 
   i = 0
   while i < nums.length
     diff = target - nums[i]
-    return [prevMap[:diff], i] if prevMap.has_value?(diff)
+    return [prev_map[:diff], i] if prev_map.has_value?(diff)
 
-    prevMap[:nums[i]] = i
+    prev_map[:nums[i]] = i
     i += 1
   end
 
