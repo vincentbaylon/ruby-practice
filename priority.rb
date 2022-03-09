@@ -1,4 +1,4 @@
-require 'pp'
+require "pp"
 
 class PriorityQueue
   attr_accessor :values
@@ -6,11 +6,12 @@ class PriorityQueue
   @values = []
 
   def initialize
-    @values = [41,39,33,18,27,12]
+    @values = []
   end
 
-  def insert(val)
-    @values << val
+  def enqueque(val, priority)
+    new_node = Node.new(val, priority)
+    @values << new_node
     bubble_up
   end
 
@@ -22,7 +23,7 @@ class PriorityQueue
       parent_idx = ((idx - 1) / 2).floor
       parent = @values[parent_idx]
 
-      break if element <= parent
+      break if element.priority >= parent.priority
 
       @values[parent_idx] = element
       @values[idx] = parent
@@ -30,14 +31,14 @@ class PriorityQueue
     end
   end
 
-  def extract_max
-    max = @values[0]
+  def dequeque
+    min = @values[0]
     last = @values.pop
     @values[0] = last
 
     sink_down
 
-    max
+    min
   end
 
   def sink_down
@@ -55,15 +56,14 @@ class PriorityQueue
       if left_child_idx < length
         left_child = @values[left_child_idx]
 
-        if left_child > element
+        if left_child.priority < element.priority
           swap = left_child_idx
         end
 
         if right_child_idx < length
           right_child = @values[right_child_idx]
 
-          if swap == nil && right_child > element || swap != nil && right_child > left_child
-
+          if swap == nil && right_child.priority > element.priority || swap != nil && right_child.priority < left_child.priority
             swap = right_child_idx
           end
         end
@@ -79,10 +79,29 @@ class PriorityQueue
   def show
     @values
   end
+
+  private
+
+  class Node
+    attr_accessor :val, :priority
+
+    def initialize(val, priority)
+      @val = val
+      @priority = priority
+    end
+  end
 end
 
-heap = PriorityQueue.new
-heap.insert(55)
-heap.extract_max
+ER = PriorityQueue.new
+ER.enqueque("common cold", 5)
+ER.enqueque("gunshot wound", 1)
+ER.enqueque("high fever", 4)
+ER.enqueque("broken arm", 2)
+ER.enqueque("glass in foot", 3)
 
-pp heap.show
+pp ER.show
+pp ER.dequeque
+pp ER.dequeque
+pp ER.dequeque
+pp ER.dequeque
+pp ER.dequeque
